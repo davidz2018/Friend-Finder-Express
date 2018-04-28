@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survey</title>
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+  <div class = "container">
+    <h2>Survey Questions</h2>
+    <h3><strong>Question One</strong></h3>
+    <h4>Are you adventurous?</h4>
+    <select data-placeholder = "" class="chosen-select" id="q1">
+      <option value = ""></option>
+      <option value = "1">1 (Strongly Disagree)</option>
+      <option value = "2">2 </option>
+      <option value = "3">3 (Neutral)</option>
+      <option value = "4">4</option>
+      <option value = "5">1 (Strongly Agree)</option>
+
+    </select>
+    <h3><strong>Question Two</strong></h3>
+    <h4>Do you enjoy spending time with other people?</h4>
+    <select data-placeholder = "" class="chosen-select" id="q2">
+      <option value = ""></option>
+      <option value = "1">1 (Strongly Disagree)</option>
+      <option value = "2">2 </option>
+      <option value = "3">3 (Neutral)</option>
+      <option value = "4">4</option>
+      <option value = "5">1 (Strongly Agree)</option>
+
+    </select>
+
+    <h3><strong>Question Three</strong></h3>
+    <h4>Do you love pets?</h4>
+    <select data-placeholder = "" class="chosen-select" id="q3">
+      <option value = ""></option>
+      <option value = "1">1 (Strongly Disagree)</option>
+      <option value = "2">2 </option>
+      <option value = "3">3 (Neutral)</option>
+      <option value = "4">4</option>
+      <option value = "5">1 (Strongly Agree)</option>
+
+    </select>
+
+    <h3><strong>Question Four</strong></h3>
+    <h4>Is helping others something that makes you happy?</h4>
+    <select data-placeholder = "" class="chosen-select" id="q4">
+      <option value = ""></option>
+      <option value = "1">1 (Strongly Disagree)</option>
+      <option value = "2">2 </option>
+      <option value = "3">3 (Neutral)</option>
+      <option value = "4">4</option>
+      <option value = "5">1 (Strongly Agree)</option>
+
+    </select>
+
+    <h3><strong>Question Five</strong></h3>
+    <h4>Do you find yourself wanting to make the world a better place?</h4>
+    <select data-placeholder = "" class="chosen-select" id="q5">
+      <option value = ""></option>
+      <option value = "1">1 (Strongly Disagree)</option>
+      <option value = "2">2 </option>
+      <option value = "3">3 (Neutral)</option>
+      <option value = "4">4</option>
+      <option value = "5">1 (Strongly Agree)</option>
+
+    </select>
+
+
+
+
+  
+  </div>
+
+  <div class="container">
+
+    <div class="jumbotron">
+      <h1 class="text-center"><span class="fa fa-fire"></span> Best Friend</h1>
+      <hr>
+      <h2 class="text-center">Best Match</h2>
+      <br>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+
+        <!-- Current Tables in Use -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">Best Friend Match</h4>
+          </div>
+          <div class="panel-body" id="BFSection">
+          </div>
+        </div>
+
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">Friend List</h4>
+          </div>
+          <div class="panel-body" id="friendlistSection">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="footer">
+      <div class="container">
+        <p>Control Panel</p>
+        <p><a href="/api/home">Home Link</a> | <a href="/api/friends">Friends List</a> | <a href="https://github.com/afhaque/HotRestaurant">GitHub Repo</a></p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type = "text/javascript">
+
+    var config = {
+        '.chosen-select'    : {},
+        '.chosen-select-deselect' : {allow_single_deselect: true},
+        '.chosen-select-no-single' : {disable_search_threshold: 5},
+        '.chosen-select-no-results' : {no_results_text: "Nothing found"},
+        '.chosen-select-width' : {width: "85%"}
+    }
+    $('#submit').on("click", function() {
+        function validateForm() {
+            var isValid = true;
+            $('.form-control').each(function() {
+                if($(this).val() === '')
+                isValid = false
+            })
+            return isValid;
+        }
+        if (validateForm() === true) {
+            var userData = {
+                name: $("#name").val(),
+                scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val()]
+            }
+            var currentURL = window.location.origin;
+
+            $.post(currentURL + "/api/friends", userData, function(data) {
+                $("#matchName").text(data.name);
+                $("#matchModal").modal('toggle');
+            });
+        }else{
+            alert("Please complete the survey before submitting!");
+        }
+        return false;
+    })
+  </script>
+</body>
+</html>
